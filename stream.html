@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>RxJS</title>
+	<script src="https://unpkg.com/rxjs/bundles/rxjs.umd.js"></script>
+</head>
+
+<body>
+
+	<button id="foo">Buffer</button>
+
+	<script>
+
+		const { Observable, fromEvent } = rxjs;
+		const { map, bufferTime, filter } = rxjs.operators;
+
+		var button = document.getElementById('foo');
+
+		fromEvent(button, 'click')
+		.pipe(
+			bufferTime(250),
+			map(list => list.length),
+			filter(x => x >= 2)
+		)
+		.subscribe(value => console.log(value));
+
+	</script>
+
+</body>
+
+</html>

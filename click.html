@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>RxJS</title>
+	<script src="https://unpkg.com/rxjs/bundles/rxjs.umd.js"></script>
+</head>
+
+<body>
+
+	<button id="foo">Throttle</button>
+
+	<script>
+
+		const { Observable, fromEvent } = rxjs;
+		const { throttleTime } = rxjs.operators;
+
+		var button = document.getElementById('foo');
+
+		fromEvent(button, 'click')
+			.pipe(
+				throttleTime(1000)
+			)
+			.subscribe({
+				next: (value) => { console.log(new Date().toString()); },
+				error: (err) => { console.log('Error: ' + err); },
+				complete: () => { console.log('complete'); }
+			});
+
+	</script>
+
+</body>
+
+</html>

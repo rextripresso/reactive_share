@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>RxJS</title>
+	<script src="https://unpkg.com/rxjs/bundles/rxjs.umd.js"></script>
+</head>
+
+<body>
+
+	<button id="foo">AJAX</button>
+
+	<script>
+
+		const { Observable, fromEvent } = rxjs;
+		const { ajax } = rxjs.ajax;
+		const { map, switchMap } = rxjs.operators;
+
+		var button = document.getElementById('foo');
+
+		fromEvent(button, 'click')
+		.pipe(
+			switchMap((ignore) => {
+				return ajax({
+					url : 'https://jsonplaceholder.typicode.com/posts/1',
+					crossDomain: true,
+					createXHR: function () {
+						return new XMLHttpRequest();
+					}
+				})
+			}),
+			map(e => e.response)
+		)
+		.subscribe(value => console.log(value.title));
+
+	</script>
+
+</body>
+
+</html>
